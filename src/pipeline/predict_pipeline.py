@@ -11,8 +11,8 @@ class PredictPipeline:
 
     def predict(self, features):
         try:
-            model_path = 'artifact/model.pkl'
-            preprocessor_path = 'artifact/preprocessor.pkl'
+            model_path = 'artifacts/model.pkl'
+            preprocessor_path = 'artifacts/preprocessor.pkl'
 
             model = load_object(file_path=model_path)
             preprocessor = load_object(file_path=preprocessor_path)
@@ -25,36 +25,42 @@ class PredictPipeline:
         except Exception as e:
             raise CustomException(e, sys)
 
-
+# vehicle_age, km_driven, seller_type, fuel_type, transmission_type, mileage, engine, max_power, seats
 class CustomData:
     def __init__(
             self, 
-            gender:str,
-            race_ethnicity:str,
-            parental_level_of_education:str,
-            lunch:str,
-            test_preparation_course:str,
-            reading_score:int,
-            writing_score:int):
+            vehicle_age: int,
+            km_driven: int,
+            seller_type: str,
+            fuel_type: str,
+            transmission_type: str,
+            mileage: float,
+            engine: float,
+            max_power: float,
+            seats: int):
         
-        self.gender = gender
-        self.race_ethnicity = race_ethnicity
-        self.parental_level_of_education = parental_level_of_education
-        self.lunch = lunch
-        self.test_preparation_course = test_preparation_course
-        self.reading_score = reading_score
-        self.writing_score = writing_score
+        self.vehicle_age = vehicle_age
+        self.km_driven = km_driven
+        self.seller_type = seller_type
+        self.fuel_type = fuel_type
+        self.transmission_type = transmission_type
+        self.mileage = mileage
+        self.engine = engine
+        self.max_power = max_power
+        self.seats = seats
 
     def get_data_as_dataframe(self):
         try:
             data_dict = {
-            "gender": [self.gender],
-            "race_ethnicity": [self.race_ethnicity],
-            "parental_level_of_education": [self.parental_level_of_education],
-            "lunch": [self.lunch],
-            "test_preparation_course": [self.test_preparation_course],
-            "reading_score": [self.reading_score],
-            "writing_score": [self.writing_score],
+                "vehicle_age": [self.vehicle_age],
+                "km_driven": [self.km_driven],
+                "seller_type": [self.seller_type],
+                "fuel_type": [self.fuel_type],
+                "transmission_type": [self.transmission_type],
+                "mileage": [self.mileage],
+                "engine": [self.engine],
+                "max_power": [self.max_power],
+                "seats": [self.seats],
             }
 
             return pd.DataFrame(data_dict)

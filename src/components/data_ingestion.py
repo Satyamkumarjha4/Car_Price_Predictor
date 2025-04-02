@@ -18,9 +18,9 @@ from dataclasses import dataclass
 
 @dataclass
 class DataIngestionConfig:
-    raw_data_path:str =  os.path.join("artifact","data.csv")
-    train_data_path:str =  os.path.join("artifact","train.csv")
-    test_data_path:str =  os.path.join("artifact","test.csv")
+    raw_data_path:str =  os.path.join("artifacts","data.csv")
+    train_data_path:str =  os.path.join("artifacts","train.csv")
+    test_data_path:str =  os.path.join("artifacts","test.csv")
 
 
 class DataIngestion:
@@ -30,8 +30,13 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         logging.info("Entered the data ingestion method or component")
         try:
-            df=pd.read_csv("notebook/data/stud.csv")
+            df=pd.read_csv("notebook/data/car_data.csv")
             logging.info("Read the data successfully")
+
+            logging.info("Dropping the columns which are not required")
+            df['brand'] = df['brand'].replace(['Mercedes-Benz', 'Mercedes-AMG'], 'Mercedes')
+            df.drop(columns=['Unnamed: 0','car_name','model','brand'], inplace=True)
+            
 
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path),exist_ok=True)
 

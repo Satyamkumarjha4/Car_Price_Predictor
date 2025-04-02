@@ -17,13 +17,15 @@ def predict_datapoints():
         return render_template('form.html')
     else:
         data = CustomData(
-            gender=request.form.get('gender'),
-            race_ethnicity=request.form.get('ethnicity'),
-            parental_level_of_education=request.form.get('parental_level_of_education'),
-            lunch=request.form.get('lunch'),
-            test_preparation_course=request.form.get('test_preparation_course'),
-            reading_score=float(request.form.get('writing_score')),
-            writing_score=float(request.form.get('reading_score'))
+            km_driven=float(request.form.get('km_driven')),
+            vehicle_age=int(request.form.get('vehicle_age')),
+            seller_type=request.form.get('seller_type'),
+            fuel_type=request.form.get('fuel_type'),
+            transmission_type=request.form.get('transmission_type'),
+            mileage=float(request.form.get('mileage')),
+            engine=float(request.form.get('engine')),
+            max_power=float(request.form.get('max_power')),
+            seats=int(request.form.get('seats'))
         )
 
         pred_data = data.get_data_as_dataframe()
@@ -31,7 +33,7 @@ def predict_datapoints():
         predict_pipeline = PredictPipeline()
         results = predict_pipeline.predict(pred_data)
 
-        return render_template('form.html', results=results[0]//0.1)
+        return render_template('form.html', results=int(results[0]))
     
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=True)

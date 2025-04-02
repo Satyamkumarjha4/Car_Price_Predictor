@@ -21,7 +21,7 @@ from src.utils import evaluate_models, save_object
 
 @dataclass
 class ModelTrainerConfig:
-    trained_model_file_path: str = os.path.join("artifact", "model.pkl")
+    trained_model_file_path: str = os.path.join("artifacts", "model.pkl")
 
 class ModelTrainer:
     def __init__(self):
@@ -37,11 +37,17 @@ class ModelTrainer:
                 test_array[:, -1],
             )
 
+            # if isinstance(x_train, csr_matrix): 
+            #     x_train = x_train.toarray()
+            # if isinstance(x_test, csr_matrix): 
+            #     x_test = x_test.toarray()
+
+
             models = {
                 "LinearRegression": LinearRegression(),
                 "DecisionTreeRegressor": DecisionTreeRegressor(),
-                "RandomForestRegressor": RandomForestRegressor(),
-                "GradientBoostingRegressor": GradientBoostingRegressor(),
+                #"RandomForestRegressor": RandomForestRegressor(),
+                #"GradientBoostingRegressor": GradientBoostingRegressor(),
                 "XGBRegressor": XGBRegressor(),
                 "CatBoostRegressor": CatBoostRegressor(verbose=0),
                 "KNeighborsRegressor": KNeighborsRegressor(),
@@ -54,17 +60,17 @@ class ModelTrainer:
                     'splitter': ['best', 'random'],
                     'max_features': ['sqrt', 'log2']
                 },
-                "RandomForestRegressor": {
-                    'n_estimators': [8, 16, 32, 64, 128, 256],
-                    'criterion': ['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
-                    'max_features': ['sqrt', 'log2', None]
-                },
-                "GradientBoostingRegressor": {
-                    'learning_rate': [0.1, 0.01, 0.05, 0.001],
-                    'subsample': [0.6, 0.7, 0.75, 0.8, 0.85, 0.9],
-                    'n_estimators': [8, 16, 32, 64, 128, 256],
-                    'criterion': ['squared_error', 'friedman_mse']
-                },
+                # "RandomForestRegressor": {
+                #     'n_estimators': [8, 16, 32, 64, 128, 256],
+                #     'criterion': ['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+                #     'max_features': ['sqrt', 'log2', None]
+                # },
+                # "GradientBoostingRegressor": {
+                #     'learning_rate': [0.1, 0.01, 0.05, 0.001],
+                #     'subsample': [0.6, 0.7, 0.75, 0.8, 0.85, 0.9],
+                #     'n_estimators': [8, 16, 32, 64, 128, 256],
+                #     'criterion': ['squared_error', 'friedman_mse']
+                # },
                 "LinearRegression": {},
                 "XGBRegressor": {
                     'learning_rate': [0.1, 0.01, 0.05, 0.001],
@@ -93,7 +99,7 @@ class ModelTrainer:
                 x_test=x_test,
                 y_test=y_test,
                 models=models,
-                params=params
+                params = params
             )
 
             best_model_score = max(model_report.values())

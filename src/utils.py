@@ -19,11 +19,12 @@ def save_object(file_path, obj):
     except Exception as e:
         raise CustomException(e, sys)
     
-def evaluate_models(x_train, y_train, x_test, y_test, models, params):
+def evaluate_models(x_train, y_train, x_test, y_test, models,params):
     try:
         report = {}
 
         for i in range(len(list(models))):
+            logging.info(f"Training {list(models.keys())[i]} model")
             model = list(models.values())[i]
             para=params[list(models.keys())[i]]
 
@@ -40,7 +41,15 @@ def evaluate_models(x_train, y_train, x_test, y_test, models, params):
             test_model_score = r2_score(y_test, y_test_pred)
 
             report[list(models.keys())[i]] = test_model_score
-            return report
+            logging.info(f"{list(models.keys())[i]} model score: {test_model_score}")
+            logging.info(f"{list(models.keys())[i]} model train score: {train_model_score}")
+            logging.info(f"Best parameters for {list(models.keys())[i]}: {gs.best_params_}")
+            logging.info(f"Best score for {list(models.keys())[i]}: {gs.best_score_}")
+            logging.info("=============================================================")
+
+        logging.info("Model evaluation completed")
+        logging.info(f"Model report: {report}")
+        return report
 
     except Exception as e:
         raise CustomException(e, sys)
